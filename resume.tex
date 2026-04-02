@@ -62,13 +62,6 @@
     \ifx\relax#5\relax\else\\\small\textit{#5}\fi\vspace{-5pt}
 }
 
-\newcommand{\resumeSubSubheading}[2]{
-    \item
-    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
-      \textit{\small#1} & \textit{\small #2} \\
-    \end{tabular*}\vspace{-7pt}
-}
-
 \newcommand{\resumeProjectHeading}[2]{
     \item
     \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
@@ -82,7 +75,7 @@
 
 \newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in, label={}]}
 \newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
-\newcommand{\resumeItemListStart}{\begin{itemize}[itemsep=0pt, parsep=0pt]}
+\newcommand{\resumeItemListStart}{\begin{itemize}[itemsep=4pt, parsep=0pt]}
 \newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
 \newcommand{\resumeInnerItemListEnd}{\end{itemize}\vspace{-2pt}}
 
@@ -102,18 +95,17 @@
      pt}
 \end{center}
 
-%-----------SUMMARY-----------
-\section{\textbf{Summary}}
-\begin{justify}
-  \small
-  Senior engineer with 5+ years experience, Presently building high-throughput distributed systems and ML data infrastructure.
-  At Meta Reality Labs Research, owned the infrastructure design and scaling of a spatial audio simulation pipeline ---
-  driving multiple architectural redesigns, including taking a scene simulation pipeline from failing at 10K scenes
-  to reliably handling 10M scenes/run. Approaches engineering as a systems discipline: understands deeply, then optimises precisely.
-\end{justify}
+%-----------CAREER HIGHLIGHTS-----------
+\section{Career Highlights}
+\resumeItemListStart
+  \resumeItem{Scaled Meta Reality Labs spatial audio data pipeline by 1000x (10K → 10M scenes/run), enabling production-scale ML training data generation}
+  \resumeItem{Reduced distributed ATS sync time by 90\% at impress.ai}
+  \resumeItem{Built a transactional email pipeline at impress.ai sustaining 100K+ emails/day on AWS SES/SQS/SNS with automated bounce and spam handling}
+  \resumeItem{Owned end-to-end infrastructure build at Highbreed from scratch --- ECS/ECR orchestration, automated deployments, and ELK-based observability and search}
+\resumeItemListEnd
 
 %-----------EXPERIENCE-----------
-\section{\textbf{Experience}}
+\section{Experience}
   \resumeSubHeadingListStart
 
     \resumeSubheading
@@ -138,8 +130,9 @@
       {Highbreed Development India}{}
       {Freelancing marketplace platform connecting businesses with vetted professionals.}
       \resumeItemListStart
-        \resumeItem{Returned to take full technical ownership; led design and deployment of an AWS-based microservices system, enabling independent service releases and horizontal scalability}
-        \resumeItem{Mentored 3 engineers through structured code reviews and engineering best practices, improving delivery velocity and code quality}
+        \resumeItem{Returned to take full technical ownership; designed and deployed the entire AWS infrastructure from scratch --- ECS/ECR container orchestration with automated service definitions, independent service releases, and horizontal scalability}
+        \resumeItem{Set up ELK stack serving dual purpose: centralized observability and full-text search; built a periodic sync layer between Elasticsearch and the relational DB to keep search indexes eventually consistent and fast}
+        \resumeItem{Mentored 3 engineers through structured code reviews and engineering best practices}
       \resumeItemListEnd
 
     \resumeSubheading
@@ -162,7 +155,7 @@
   \resumeSubHeadingListEnd
 
 %-----------TECHNICAL SKILLS-----------
-\section{\textbf{Technical Skills}}
+\section{Technical Skills}
  \begin{itemize}[leftmargin=0.15in, label={}]
     \small{\item{
       \begin{tabular}{@{} p{1.75in} p{\dimexpr0.97\textwidth-1.75in} @{}}
@@ -170,7 +163,7 @@
         \textbf{Systems}            & Distributed systems, DAG-based systems, stream processing, concurrent \& parallel programming, producer-consumer pipelines, event-driven architectures, memory-constrained design \\[2pt]
         \textbf{Data}               & Relational databases, Hive, Apache Parquet, DuckDB, columnar storage, time-series data \\[2pt]
         \textbf{ML \& Audio}        & Audio signal processing; foundational ML (neural networks, backpropagation, random forests, gradient descent) \\[2pt]
-        \textbf{Tools \& Technologies} & Kafka, FastAPI, Django, Docker, Kubernetes, WebSocket, NumPy, Pandas, PyArrow, Redis, Git, Linux, AWS, GCP, Azure \\
+        \textbf{Tools \& Technologies} & Kafka, Apache Airflow, FastAPI, Django, Docker, Kubernetes, WebSocket, NumPy, Pandas, PyArrow, Redis, Git, Linux, AWS, GCP, Azure \\
       \end{tabular}
     }}
  \end{itemize}
@@ -178,7 +171,7 @@
 %-------------------------------------------
 
 %-----------PROJECTS-----------
-\section{\textbf{Projects}}
+\section{Projects}
     \resumeSubHeadingListStart
 
       \resumeProjectHeading
@@ -203,7 +196,7 @@
     \resumeSubHeadingListEnd
 
 %-----------EDUCATION-----------
-\section{\textbf{Education}}
+\section{Education}
   \resumeSubHeadingListStart
     \resumeSubheading
       {AKTU}{Noida, India}
