@@ -1,0 +1,214 @@
+%-------------------------
+% Resume in Latex
+% Based off of: https://github.com/jakegut/resume
+% License : MIT
+%------------------------
+
+\documentclass[letterpaper,10pt]{article}
+
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{ragged2e}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+\input{glyphtounicode}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\addtolength{\oddsidemargin}{-0.5in}
+\addtolength{\evensidemargin}{-0.5in}
+\addtolength{\textwidth}{1in}
+\addtolength{\topmargin}{-.5in}
+\addtolength{\textheight}{1.0in}
+
+\urlstyle{same}
+
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+\setlength{\parskip}{0pt}
+
+\titleformat{\section}{
+  \vspace{-6pt}\scshape\raggedright\large
+}{}{0em}{}[\color{black}\titlerule \vspace{-7pt}]
+
+\pdfgentounicode=1
+
+%-------------------------
+% Custom commands
+\newcommand{\resumeItem}[1]{
+  \item\small{
+    {#1 \vspace{-2pt}}
+  }
+}
+
+\newcommand{\resumeSubheading}[5]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & #2 \\
+      {\small#3} & {\small #4} \\
+    \end{tabular*}
+    \ifx\relax#5\relax\else\\\small\textit{#5}\fi\vspace{-5pt}
+}
+
+\newcommand{\resumeSubSubheading}[2]{
+    \item
+    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+      \textit{\small#1} & \textit{\small #2} \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeProjectHeading}[2]{
+    \item
+    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+      \small#1 & #2 \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeSubItem}[1]{\resumeItem{#1}\vspace{-4pt}}
+
+\renewcommand\labelitemii{$\vcenter{\hbox{\tiny$\bullet$}}$}
+
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in, label={}]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}[itemsep=0pt, parsep=0pt]}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
+\newcommand{\resumeInnerItemListEnd}{\end{itemize}\vspace{-2pt}}
+
+%-------------------------------------------
+%%%%%%  RESUME STARTS HERE  %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+%----------HEADING----------
+\begin{center}
+    {\Huge \scshape Sarthak Kumar} \\ \vspace{1pt}
+    \small +91-8279436744 \hspace{2pt}|\hspace{2pt}
+    \href{mailto:kumar.v.sarthak@gmail.com}{\underline{kumar.v.sarthak@gmail.com}} \hspace{2pt}|\hspace{2pt}
+    \href{https://linkedin.com/in/sarthakchaudhary}{\underline{linkedin.com/in/sarthakchaudhary}} \hspace{2pt}|\hspace{2pt}
+    \href{https://github.com/sarthakvk}{\underline{github.com/sarthakvk}} \hspace{2pt}|\hspace{2pt}
+     \small Noida, India \hspace{2
+     pt}
+\end{center}
+
+%-----------SUMMARY-----------
+\section{\textbf{Summary}}
+\begin{justify}
+  \small
+  Senior engineer with 5+ years experience, Presently building high-throughput distributed systems and ML data infrastructure.
+  At Meta Reality Labs Research, owned the infrastructure design and scaling of a spatial audio simulation pipeline ---
+  driving multiple architectural redesigns, including taking a scene simulation pipeline from failing at 10K scenes
+  to reliably handling 10M scenes/run. Approaches engineering as a systems discipline: understands deeply, then optimises precisely.
+\end{justify}
+
+%-----------EXPERIENCE-----------
+\section{\textbf{Experience}}
+  \resumeSubHeadingListStart
+
+    \resumeSubheading
+      {Software Engineer (Contractor)}{Mar. 2024 -- Present}
+      {Meta Reality Labs Research --- Audio Team}{}
+      {Built spatial audio simulation infrastructure at Meta Reality Labs --- a pipeline that simulates sound propagation across millions of acoustic scene configurations to generate synthetic training data for audio ML models.}
+      \resumeItemListStart
+        \resumeItem{\textbf{Scaled scene simulation pipeline from prototype to production: 10K $\rightarrow$ 10M scenes/run}}
+        \resumeItemListStart
+          \resumeItem{\textbf{Memory-bounded scene generation:} Eliminated scene count ceiling with async incremental batch uploads to blob storage with backpressure, fully decoupling generation from upload}
+          \resumeItem{\textbf{Decoupled result offloading:} Eliminated worker memory accumulation by streaming simulation results to Hive in batches via a per-worker async uploader, keeping workers continuously unblocked}
+          \resumeItem{\textbf{Distributed write coordination:} Eliminated partition explosion at scale by routing all workers to write distinct files under a shared partition directory, with a coordinator performing a single atomic commit across all workers via two-phase commit}
+          \resumeItem{\textbf{Post-commit compaction:} Coordinator runs an \texttt{INSERT OVERWRITE} via Presto after the final commit to consolidate all worker files into optimal partition sizes for read performance}
+        \resumeInnerItemListEnd
+        \resumeItem{\textbf{DAG-based scene config engine:} Designed and built a generator dependency graph engine enabling controlled parameter variation across large-scale spatial audio simulation runs --- users define interdependent generators in YAML and the engine resolves them into diverse scene configurations at scale; implemented cycle detection, multi-parent resolution, and Kahn's algorithm-based topological traversal}
+        \resumeItem{\textbf{21$\times$ scene upload throughput:} Identified remote blob storage I/O as the serial bottleneck; parallelized scene uploads with a thread pool --- 21$\times$ throughput gain (1.16 $\rightarrow$ 24.44 scenes/sec, 95\% latency reduction)}
+        \resumeItem{\textbf{Cross-team label propagation:} Built a system preserving time-accurate event metadata through all signal transformations during signal simulation; directly adopted by the Sound Understanding team for Audio Event Detection model training}
+      \resumeItemListEnd
+
+    \resumeSubheading
+      {Principal Software Engineer}{Jul. 2022 -- Aug. 2023}
+      {Highbreed Development India}{}
+      {Freelancing marketplace platform connecting businesses with vetted professionals.}
+      \resumeItemListStart
+        \resumeItem{Returned to take full technical ownership; led design and deployment of an AWS-based microservices system, enabling independent service releases and horizontal scalability}
+        \resumeItem{Mentored 3 engineers through structured code reviews and engineering best practices, improving delivery velocity and code quality}
+      \resumeItemListEnd
+
+    \resumeSubheading
+      {Software Engineer}{Jul. 2021 -- Jun. 2022}
+      {impress.ai}{}
+      {AI-powered end-to-end recruitment automation platform --- candidate screening, assessment, and engagement via conversational AI.}
+      \resumeItemListStart
+        \resumeItem{Re-engineered a distributed data sync with client-hosted ATS systems; identified synchronous nested query loops as the bottleneck and parallelized every processing stage --- 90\% reduction in sync time}
+        \resumeItem{Built a high-throughput transactional email system using AWS SES, SQS, and SNS sustaining 100K+ emails/day with automated bounce and spam handling}
+      \resumeItemListEnd
+
+    \resumeSubheading
+      {Software Engineer}{May 2020 -- Jun. 2021}
+      {Highbreed Development India}{}
+      {Freelancing marketplace platform connecting businesses with vetted professionals.}
+      \resumeItemListStart
+        \resumeItem{Built Django-based backend services and containerized the application stack with Docker; established CI/CD pipelines for automated testing and deployment}
+      \resumeItemListEnd
+
+  \resumeSubHeadingListEnd
+
+%-----------TECHNICAL SKILLS-----------
+\section{\textbf{Technical Skills}}
+ \begin{itemize}[leftmargin=0.15in, label={}]
+    \small{\item{
+      \begin{tabular}{@{} p{1.75in} p{\dimexpr0.97\textwidth-1.75in} @{}}
+        \textbf{Languages}          & \textbf{Python} (primary), Go, C++, Rust, SQL, JavaScript / TypeScript \\[2pt]
+        \textbf{Systems}            & Distributed systems, DAG-based systems, stream processing, concurrent \& parallel programming, producer-consumer pipelines, event-driven architectures, memory-constrained design \\[2pt]
+        \textbf{Data}               & Relational databases, Hive, Apache Parquet, DuckDB, columnar storage, time-series data \\[2pt]
+        \textbf{ML \& Audio}        & Audio signal processing; foundational ML (neural networks, backpropagation, random forests, gradient descent) \\[2pt]
+        \textbf{Tools \& Technologies} & Kafka, FastAPI, Django, Docker, Kubernetes, WebSocket, NumPy, Pandas, PyArrow, Redis, Git, Linux, AWS, GCP, Azure \\
+      \end{tabular}
+    }}
+ \end{itemize}
+
+%-------------------------------------------
+
+%-----------PROJECTS-----------
+\section{\textbf{Projects}}
+    \resumeSubHeadingListStart
+
+      \resumeProjectHeading
+          {\textbf{gokey} $|$ \emph{Go}}{\href{https://github.com/sarthakvk/gokey}{\underline{github.com/sarthakvk/gokey}}}
+          \resumeItemListStart
+            \resumeItem{Fault-tolerant distributed key-value store in Go using HashiCorp Raft --- implemented the FSM interface (\texttt{Apply}, \texttt{Snapshot}, \texttt{Restore}), cluster membership management, and an HTTP API layer for multi-node deployments with leader election and log replication}
+          \resumeItemListEnd
+
+      \resumeProjectHeading
+          {\textbf{algo-trade} $|$ \emph{Python, AWS S3/EC2}}{\href{https://github.com/sarthakvk/algo-trade}{\underline{github.com/sarthakvk/algo-trade}}}
+          \resumeItemListStart
+            \resumeItem{Streams full-mode tick data for all NSE instruments via 3 parallel Broker WebSocket connections; producer-consumer pipeline with bounded backpressure queue writes ZSTD-compressed Parquet files in Hive-style date partitions, queryable via DuckDB}
+            \resumeItem{Fully autonomous daily lifecycle --- starts pre-market, collects data, uploads to S3 with SHA-256 verification, shuts down post-close; reverse-engineered TOTP authentication flow for fully headless unattended execution}
+          \resumeItemListEnd
+
+      \resumeProjectHeading
+          {\textbf{Real-time bidirectional translation } $|$ \emph{Python}}{\href{https://github.com/sarthakvk/rtt}{\underline{github.com/sarthakvk/rtt}}}
+          \resumeItemListStart
+            \resumeItem{FastAPI WebSocket backend streams chunked audio through Azure Cognitive Services STT $\rightarrow$ translation $\rightarrow$ TTS pipeline with async concurrency for low-latency multi-device playback}
+          \resumeItemListEnd
+
+    \resumeSubHeadingListEnd
+
+%-----------EDUCATION-----------
+\section{\textbf{Education}}
+  \resumeSubHeadingListStart
+    \resumeSubheading
+      {AKTU}{Noida, India}
+      {Bachelor of Technology, Computer Science}{2017 -- 2021}
+      {}
+  \resumeSubHeadingListEnd
+
+\end{document}
